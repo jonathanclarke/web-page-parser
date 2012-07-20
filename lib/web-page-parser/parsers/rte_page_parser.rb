@@ -14,13 +14,17 @@ module WebPageParser
     end
   end
 
+  # RtePageParserV1 parses News web pages exactly like the
+  # old News Sniffer BbcNewsPage class did.  This should only ever
+  # be used for backwards compatability with News Sniffer and is
+  # never supplied for use by a factory.
   class RtePageParserV1 < WebPageParser::BaseParser
     ICONV = nil
     TITLE_RE = ORegexp.new('<meta name="DC.title" scheme="DCTERMS.URI" content="(.*)"', 'i')
     DATE_RE = ORegexp.new('<meta name="datemodified" content="(.*)"', 'i')
-    CONTENT_RE = ORegexp.new('"storyBody">(.*?)<div id="user-options-bottom">', 'm')
+    CONTENT_RE = ORegexp.new('"news-article-container">(.*?)<div id="user-options-bottom">', 'm')
 
-    STRIP_TAGS_RE = ORegexp.new('</?(a|span|div|img|tr|td|!--|table)[^>]*>','i')
+    STRIP_TAGS_RE = ORegexp.new('</?(a|p class="date|span|div|img|tr|td|!--|table)[^>]*>','i')
     PARA_RE = Regexp.new(/<(p|h2)[^>]*>(.*?)<\/\1>/i)
 
     private
